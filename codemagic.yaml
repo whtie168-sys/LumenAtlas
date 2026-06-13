@@ -1,20 +1,20 @@
 workflows:
   ios-native-quick-start:
-    name: Bearing Atlas Pro
+    name: Focus Toolkit
     max_build_duration: 120
     instance_type: mac_mini_m2
     integrations:
-      app_store_connect: FEWWS
+      app_store_connect: ATSS
     environment:
       ios_signing:
         distribution_type: app_store
-        bundle_identifier: com.BearingAtlasPro.RS
+        bundle_identifier: com.FocusToolkit
       vars:
         BUNDLE_ID: $bundle_identifier
-        PROJECT_PATH: "BearingAtlasPro" #5:工程名称
+        PROJECT_PATH: "FocusToolkit" #5:工程名称
         XCODE_WORKSPACE: "$PROJECT_PATH/$PROJECT_PATH.xcworkspace"
         XCODE_SCHEME: $PROJECT_PATH
-        APP_STORE_APPLE_ID: 6779721978
+        APP_STORE_APPLE_ID: 6779670209
       xcode: latest # <-- set to specific version e.g. 14.3, 15.0 to avoid unexpected updates.
       cocoapods: default
     scripts:
