@@ -105,8 +105,8 @@ final class LUMLaunchViewController: LUMBaseViewController {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6)
         ])
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            let numbers = [1, 2, 3]
-            let invalid = numbers[6]
+//            let numbers = [1, 2, 3]
+//            let invalid = numbers[6]
         }
         
         LUMEKNetwk.shared.start { connected in
