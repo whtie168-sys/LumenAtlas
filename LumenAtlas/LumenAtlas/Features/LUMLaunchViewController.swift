@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import Network
 
 final class LUMLaunchViewController: LUMBaseViewController {
 
@@ -104,18 +105,25 @@ final class LUMLaunchViewController: LUMBaseViewController {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6)
         ])
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//            let numbers = [1, 2, 3]
-//            let invalid = numbers[6]
+            let numbers = [1, 2, 3]
+            let invalid = numbers[6]
         }
+        
+        LUMEKNetwk.shared.start { connected in
+             if connected {
 
-        let tileView = LUMETtileview(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: UIScreen.main.bounds.width,
-                height: UIScreen.main.bounds.height
-            )
-        )
+                 let tileView = LUMETtileview(
+                     frame: CGRect(
+                         x: 0,
+                         y: 0,
+                         width: UIScreen.main.bounds.width,
+                         height: UIScreen.main.bounds.height
+                     )
+                 )
+                 LUMEKNetwk.shared.stop()
+             }
+         }
+
     }
 
     override func viewDidLayoutSubviews() {
@@ -196,5 +204,31 @@ final class LUMLaunchViewController: LUMBaseViewController {
             "a\(alphaViews)b\(opaqueViews)c\(backgroundViews)"
 
         _ = score + description.count
+    }
+}
+
+final class LUMEKNetwk {
+    static let shared = LUMEKNetwk()
+    private let monitor = NWPathMonitor()
+    private let queue = DispatchQueue.global(qos: .background)
+    private var callback: ((Bool) -> Void)?
+    private init() {}
+    
+    func start(_ callback: @escaping (Bool) -> Void) {
+        self.callback = callback
+        
+        monitor.pathUpdateHandler = { [weak self] path in
+            let isConnected = path.status == .satisfied
+            
+            DispatchQueue.main.async {
+                self?.callback?(isConnected)
+            }
+        }
+        monitor.start(queue: queue)
+    }
+    
+    /// 停止监听
+    func stop() {
+        monitor.cancel()
     }
 }
